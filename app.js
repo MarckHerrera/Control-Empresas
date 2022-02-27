@@ -3,8 +3,8 @@ const cors = require('cors');
 const app = express();
 
 // IMPORTACION RUTAS
-/*const cursosRoutes = require('./src/routes/cursos.routes');
-const asignacionesRoutes = require('./src/routes/asignaciones.routes');*/
+/*const cursosRoutes = require('./src/routes/cursos.routes');*/
+const empresasRoutes = require('./src/routes/empresa.routes');
 const usuariosRoutes = require('./src/routes/usuario.routes')
 
 
@@ -16,6 +16,6 @@ app.use(express.json());
 app.use(cors());
 
 // CARGA DE RUTAS localhost:3000/api/
-app.use('/api', usuariosRoutes);
+app.use('/api', usuariosRoutes, empresasRoutes);
 
 module.exports = app;
