@@ -3,7 +3,6 @@ const cors = require('cors');
 const app = express();
 
 // IMPORTACION RUTAS
-/*const cursosRoutes = require('./src/routes/cursos.routes');*/
 const empresasRoutes = require('./src/routes/empresa.routes');
 const usuariosRoutes = require('./src/routes/usuario.routes')
 

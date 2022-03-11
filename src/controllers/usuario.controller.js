@@ -128,19 +128,7 @@ function EditarUsuario(req,res){
 
 }
 
-function EliminarUsuario(req, res) {
 
-    if( req.user.rol !== 'Admin') {
-        return res.status(500).send({ mensaje: 'No tiene los permisos para editar este Curso.' });
-    }
-
-    Usuario.findByIdAndDelete(req.params.idUsuario, (err, usuarioEliminado)=>{
-        if(err) return res.status(500).send({ mensaje: 'Error en la peticion' });
-        if(!usuarioEliminado) return res.status(500)
-            .send({ mensaje: 'Error al eliminar el Usuario' })
-        return res.status(200).send({ usuario: usuarioEliminado });
-    })
-}
 
 module.exports = {
     RegistrarAdmin,

@@ -1,15 +1,6 @@
 const Empresas = require('../models/empresa.model');
 const Empleados = require('../models/empleado.model');
 
-
-/*// OBTENER PRODUCTOS
-function ObtenerProductos (req, res) {
-    Productos.find({}, (err, productosEncontrados) => {
-
-        return res.send({ productos: productosEncontrados })
-    }).populate('provedores.idProveedor')
-}*/
-
 // AGREGAR EMPRESAS
 function AgregarEmpresas (req, res) {
     var parametros = req.body;
@@ -104,38 +95,31 @@ function agregarEmpleadoEmpresa(req, res) {
 }
 
 
-function buscarEmpresaXEmpleados(req, res) {
-    var idEmple = req.params.idEmpleado;
+function buscarEmpleadoId(req, res) {
+    const idEmpleado = req.params.idEmpleado;
 
-    Empresas.find({ empleados : { } }, (err, empresasEncontradas)=>{
-        if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
-        if(!empresasEncontradas) return res.status(500).send({ mensaje: 'Error al obtener los empleados por empresas'});
+    Empleados.findOne({ _id: idEmpleado, idEmpresa: req.user.sub }, (err, empresaEncontrada) => {
+        if (!empresaEncontrada) {
+            return res.status(400).send({ mensaje: "No puedes editar un empleado que no sea de tu Empresa" });
+        }
+        Empleados.find({ _id: idEmpleado }, (err, empleadoEncontrado) => {
+            if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+            if (!empleadoEncontrado) return res.status(500).send({ mensaje: 'Error al buscar empleado' });
 
-        return res.status(200).send({ productos: productosEncontrados })
+            return res.status(200).send({ empleado: empleadoEncontrado })
+        }
+        )
     })
-    
-}
-
-function buscarEmpresaXEmpleados(req, res) {
-    var idEmple = req.params.idEmpleado;
-
-    Empresas.find({ empleados : { $elemMatch: { _id: idEmple,  } } }, (err, empresasEncontradas)=>{
-        if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
-        if(!empresasEncontradas) return res.status(500).send({ mensaje: 'Error al obtener los empleados por empresas'});
-
-        return res.status(200).send({ productos: productosEncontrados })
-    })
-    
 }
 
 function buscarDatosEmpleado(req, res) {
     var parametros = req.body;
 
-    Usuario.find({ nombre: parametros.nombre, apellido: parametros.apellido }, 
-        { nombre: 1 }, (err, usuariosEncontrados) => {
+    Empleados.find({ nombre: parametros.nombre, apellido: parametros.apellido }, 
+        { nombre: 1 , apellido: 1}, (err, usuariosEncontrados) => {
             if(err) return res.status(500).send({ mensaje: 'Error en  la peticion'});
             if(!usuariosEncontrados) return res.status(500)
-                .send({ mensaje: 'Error al obtener los usuarios'})
+                .send({ mensaje: 'Error al obtener un empleado'})
 
             return res.status(200).send({ usuarios: usuariosEncontrados })
     })
@@ -148,6 +132,7 @@ module.exports = {
     EliminarEmpresas,
     agregarEmpleados,
     agregarEmpleadoEmpresa,
-    buscarEmpresaXEmpleados
+    buscarEmpleadoId,
+    buscarDatosEmpleado
 
 }

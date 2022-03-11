@@ -4,14 +4,15 @@ const md_authentication = require('../middlewares/autenticacion');
 
 const api = express.Router();
 
-/*api.get('/productos', md_authentication.Auth, productosControlador.ObtenerProductos);*/
+//EMPRESAS
 api.post('/agregarEmpresas',  md_authentication.Auth, controladorEmpresas.AgregarEmpresas);
 api.put('/editarEmpresa/:idEmpresa',  md_authentication.Auth, controladorEmpresas.EditarEmpresas);
-/*api.delete('/eliminarProducto/:idProducto',  md_authentication.Auth, productosControlador.EliminarProductos);*/
-/*
-// PROVEEDOR
-api.post('/agregarProveedor', productosControlador.agregarProveedor);
-api.put('/agregarProveedorAProducto/:idProducto/:idProveedor', productosControlador.agregarProvedorProducto)
-api.get('/buscarProductoXProveedor/:idProveedor', productosControlador.buscarProductoXProveedor)*/
+api.put('/eliminarEmpresa/:idEmpresa',  md_authentication.Auth, controladorEmpresas.EliminarEmpresas);
+
+//EMPLEADOS
+api.post('/agregarEmpleados',  md_authentication.Auth, controladorEmpresas.agregarEmpleados);
+api.put('/agregarEmpleadoEmpresa/:idEmpresa',  md_authentication.Auth, controladorEmpresas.EditarEmpresas);
+api.get('/buscarEmoleadoId/:idEmpleado',  md_authentication.Auth, controladorEmpresas.buscarEmpleadoId);
+api.get('/buscarDatosEmpleado',  md_authentication.Auth, controladorEmpresas.buscarDatosEmpleado);
 
 module.exports = api;
